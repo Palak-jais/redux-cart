@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { uiActions } from "./ui-slice";
 const cartSlice=createSlice({
     name:'cart',
     initialState:{
@@ -27,13 +27,56 @@ const cartSlice=createSlice({
            }
 
         },
-        removeFromCart(){
+        removeFromCart(state,action){
+          const id=action.payload;
+          const existingItem=state.itemsList.find(item=>item.id===id);
+          if(existingItem.quantity==1){
+            state.itemsList=state.itemsList.filter(item=>item.id!==id);
+            state.totalQuantity--;
+          }
+          else{
+             existingItem.quantity--;
+             existingItem.totalPrice-=existingItem.price;
+          }
+
 
         },
         setShowCart(state){
-          state.showCart=true;
+          state.showCart=!state.showCart;
         }
     }
 })
+/*export const sendCartData=async(cart)=>{
+  return (dispatch)=>{
+    dispatch(uiActions.showNotification({
+      open:true,
+      message:'Sending Request',
+      type:'warning',
+    }))
+    const sendRequest=async()=>{
+      const response=await  fetch('https://redux-cart-c2bdc-default-rtdb.firebaseio.com/cartItems.json',{
+        method:'PUT',
+        body:JSON.stringify(cart)
+     });
+     const data=await response.json();
+     console.log(data);
+     dispatch(uiActions.showNotification({
+      open:true,
+      message:'Successfully sent to database',
+      type:'success'
+    }))
+    };
+   try{
+      sendRequest();
+   }catch(err){
+    dispatch(uiActions.showNotification({
+      open:true,
+      message:'Oops!Went Wrong',
+      type:'error'
+    }))
+   }
+  }
+}
+*/
 export const cartActions=cartSlice.actions;
 export default cartSlice;

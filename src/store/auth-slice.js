@@ -8,7 +8,7 @@ const authSlice=createSlice({
           state.isLoggedIn=true;
         },
         logout(state){
-            state.isLoggedIn=true;
+            state.isLoggedIn=!state.isLoggedIn;
         },
     }
 });

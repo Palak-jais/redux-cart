@@ -3,8 +3,9 @@ import Navbar from "./Navbar";
 import styles from './page.module.css';
 import Item from "./Item";
 import CartItems from "./CartItems";
-
+import {useSelector} from 'react-redux';
 export default function Product(){
+  const show=useSelector((state)=>state.cart.showCart);
     return <div>
         <Navbar/>
         <div className={styles.templateParent}>
@@ -15,6 +16,6 @@ export default function Product(){
         <Item name={"prod3"} id={40} price={400}/>
         </div>
         </div>
-      <CartItems/>
+        {show && <CartItems/>}
     </div>
 }
