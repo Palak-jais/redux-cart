@@ -12,7 +12,9 @@ export default function CartItems(){
         {items.map(item=>{
         return <li key={item.id}><CartItem id={item.id} price={item.price} totalPrice={item.totalPrice} name={item.name}/></li>
         })}
+     
         </ul>
+       
     </div>
     )
     
